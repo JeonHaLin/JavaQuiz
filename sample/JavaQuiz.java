@@ -1,3 +1,5 @@
+package sample;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -5,14 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.sound.sampled.*;
 
 
 public class JavaQuiz extends JFrame {
@@ -26,7 +26,7 @@ public class JavaQuiz extends JFrame {
 	private JButton resetButton; // 이름 초기화 버튼
 	private List<String> answerChoices; // 정답 선지 리스트
 	private ButtonGroup choiceButtonGroup; // 라디오 버튼 그룹
-
+	private Clip backgroundMusic;
 	// 생성자
 	public JavaQuiz() {
 		setTitle("Picture Quiz Game");
@@ -98,6 +98,7 @@ public class JavaQuiz extends JFrame {
 	private void startGame() {
 		score = 0;
 		correctAnswers = 0;
+		playBackgroundMusic("music/sqidgameBGM.mp3");
 
 		// 그림 데이터의 키(그림 파일명)를 리스트로 변환
 		List<String> pictureKeys = new ArrayList<>(pictureData.keySet());
@@ -353,6 +354,21 @@ public class JavaQuiz extends JFrame {
 			extension = fileName.substring(dotIndex + 1).toLowerCase();
 		}
 		return extension;
+	}
+	private void playBackgroundMusic(String musicFilePath) {
+		try {
+			File musicFile = new File(musicFilePath);
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+
+			backgroundMusic = AudioSystem.getClip();
+			backgroundMusic.open(audioStream);
+
+			// Play the music in a loop
+			backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
+			backgroundMusic.start();
+		} catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {
