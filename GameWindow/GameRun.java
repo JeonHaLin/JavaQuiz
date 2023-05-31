@@ -72,6 +72,7 @@ public class GameRun extends PictureDataLoader {
     }//여러번 실행
 
     void addPicture(Container c){
+        displayNextPicture();
         displayPicture(pictureKeys.get(0));
         c.add(pictureLabel,BorderLayout.CENTER);
     }

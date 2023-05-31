@@ -53,7 +53,7 @@ public class PictureDataLoader extends JFrame{
 			}
 		}
 		// 다음 그림을 표시하는 메서드
-		private void displayNextPicture() {
+		protected void displayNextPicture() {
         // 그림 데이터가 남아있는지 확인
 			if (!answerChoices.isEmpty()) {
 			// 이미 선택한 그림의 키(그림 파일명) 가져오기
