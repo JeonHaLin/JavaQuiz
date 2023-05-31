@@ -51,6 +51,7 @@ public class GameRun extends PictureDataLoader {
             fourSelect[i].setSize(40,20);
         }
     }//한번만 실행
+
     void setButtonLocation(Container c){//버튼을 하단부에 위치시키는 매소드
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -59,11 +60,13 @@ public class GameRun extends PictureDataLoader {
         }
         c.add(buttonPanel, BorderLayout.SOUTH);
     }//한번만 실행
-    void addEvent(){
+
+    void addEvent(){//각 버튼마다 이벤트를 추가시키는 메소드
         for(int i =0;i<4;i++){
             fourSelect[i].addActionListener(new AnswerEvent());
         }
     }//한번만 실행
+
     void renameFourSelect() { // 생성된 버튼에 이름을 다시 할당하는 메서드
         Random ran = new Random();
         for(int i =0;i<4;i++){
@@ -71,12 +74,12 @@ public class GameRun extends PictureDataLoader {
         }
     }//여러번 실행
 
-    void addPicture(Container c){
+    void addPicture(Container c){//그림 추가 메소드
         displayNextPicture();
         displayPicture(pictureKeys.get(0));
         c.add(pictureLabel,BorderLayout.CENTER);
     }
-    void done(Container c){
+    void done(Container c){//게임 종료까지 카운트하는 메소드
         try {
             sleep(30000);
         } catch (InterruptedException e) {
@@ -90,7 +93,7 @@ public class GameRun extends PictureDataLoader {
     }
 
 
-    class AnswerEvent implements ActionListener {
+    class AnswerEvent implements ActionListener {//게임중 정답을 누르는 버튼에 이벤트를 추가하는 메소드
         public void actionPerformed(ActionEvent e){
             JButton temp = (JButton) e.getSource();
 
