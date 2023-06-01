@@ -86,7 +86,7 @@ public class GameRun extends PictureReturn {
     }//여러번 실행
     void done(Container c){//게임 종료까지 카운트하는 메소드
         try {
-            sleep(30000);
+            sleep(3000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

@@ -46,4 +46,9 @@ public class PictureReturn extends PictureDataLoader{
     //make wrong answer return function
     //format is List or Vector
     //content is not overlapping
+    //size 3
+    //메모장에 오답 선지들을 모두 작성하고
+    //파일 입출력 이용해서 오답 선지에 대한 list작성하고
+    //그 리스트를 한번 섞고
+    //인덱스 0번 1번 2번의 값을 포함하는 리스트나 벡터를 리턴
 }
