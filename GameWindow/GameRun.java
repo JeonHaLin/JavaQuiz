@@ -1,6 +1,7 @@
 package GameWindow;
 
-import PictureDataLoader.PictureDataLoader;
+import PictureDataLoader.PictureReturn;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,13 +11,15 @@ import java.util.Random;
 import static java.lang.Thread.sleep;
 
 
-public class GameRun extends PictureDataLoader {
+public class GameRun extends PictureReturn {
     public static void main(String[] args) {
         new GameRun();
     }
 
     JButton[] fourSelect; // 4지선다 그룹
     int totalScore=0;
+
+    protected PictureContent currentContent;
 
     GameRun() {
         setTitle("Quiz Game");
@@ -31,10 +34,10 @@ public class GameRun extends PictureDataLoader {
         this.setButtonGroup();
         this.addEvent();
         this.setButtonLocation(c);
-        startGame();
 
 
         //multi
+        this.callContent();
         this.renameFourSelect();
         this.addPicture(c);
 
@@ -74,10 +77,12 @@ public class GameRun extends PictureDataLoader {
         }
     }//여러번 실행
 
+    void callContent(){
+        currentContent = super.getContent();
+    }
     void addPicture(Container c){//그림 추가 메소드
-        displayNextPicture();
-        displayPicture(pictureKeys.get(0));
-        c.add(pictureLabel,BorderLayout.CENTER);
+
+        c.add(currentContent.la);
     }
     void done(Container c){//게임 종료까지 카운트하는 메소드
         try {
