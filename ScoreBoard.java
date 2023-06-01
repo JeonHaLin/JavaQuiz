@@ -1,0 +1,62 @@
+import javax.swing.*;
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ScoreBoard extends JFrame {
+    private static final String FILE_PATH = "(점수를 저장할 텍스트 파일의로절대경로)";
+    private JTextArea scoreTextArea;
+
+    public ScoreBoard() {
+        setTitle("점수표");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setPreferredSize(new Dimension(300, 200));
+
+        scoreTextArea = new JTextArea();
+        scoreTextArea.setEditable(false);
+
+        JScrollPane scrollPane = new JScrollPane(scoreTextArea);
+        getContentPane().add(scrollPane);
+
+        pack();
+        setLocationRelativeTo(null);
+    }
+
+    public void showScoreBoard() {
+        List<String> scoreBoardData = loadScoreBoard();
+        StringBuilder scoreBoardMessage = new StringBuilder();
+        scoreBoardMessage.append("점수기록\n");
+
+        for (int i = 0; i < scoreBoardData.size(); i++) {
+            scoreBoardMessage.append(i + 1).append(". ").append(scoreBoardData.get(i)).append("\n");
+        }
+
+        scoreTextArea.setText(scoreBoardMessage.toString());
+        setVisible(true);
+    }
+
+    private List<String> loadScoreBoard() {
+        List<String> scoreBoardData = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                scoreBoardData.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return scoreBoardData;
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            ScoreBoard printer = new ScoreBoard();
+            printer.showScoreBoard();
+        });
+    }
+}
