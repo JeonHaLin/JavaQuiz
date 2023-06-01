@@ -42,7 +42,7 @@ public class GameRun extends PictureReturn {
         this.addPicture(c);
 
         setVisible(true);
-        setSize(500, 600);
+        setSize(1280,1280);
         done(c);
         new GameEnd(totalScore);
     }

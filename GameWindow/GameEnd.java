@@ -16,7 +16,6 @@ public class GameEnd extends JFrame{
         c.setLayout(new BorderLayout());
 
         addScore(c);//use North
-
         addRanking(c);//use Center
 
         setVisible(true);

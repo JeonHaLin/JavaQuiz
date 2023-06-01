@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreBoardDeleter extends JFrame implements ActionListener {
+    //절대경로를 직접 입력하는 방식이 아닌 프로그램을 통해서 절대경로를 따와서 사용하는 방식
     private static final String FILE_PATH = "(점수가 저장되어 있는 텍스트 파일의 절대경로)";
     private JTextField scoreTextField;
     private JButton deleteButton;
