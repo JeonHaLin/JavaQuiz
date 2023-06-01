@@ -1,11 +1,12 @@
-import java.awt.FlowLayout;
+package ScoreManager;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.*;
 
 public class ScoreBoardDeleter extends JFrame implements ActionListener {
     private static final String FILE_PATH = "(점수가 저장되어 있는 텍스트 파일의 절대경로)";
@@ -34,15 +35,15 @@ public class ScoreBoardDeleter extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == deleteButton) {
             String input = scoreTextField.getText();
-            
+
             if (input.contains(":")) {
                 String[] parts = input.split(":");
                 String name = parts[0].trim();
                 String score = parts[1].trim();
-                
+
                 deleteScore(name, score);
                 JOptionPane.showMessageDialog(this, "점수가 삭제되었습니다.");
-                
+
                 // Clear the input field
                 scoreTextField.setText("");
             } else {
