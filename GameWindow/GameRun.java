@@ -70,20 +70,20 @@ public class GameRun extends PictureReturn {
         }
     }//한번만 실행
 
+
+
+    void callContent(){//이미지 컨텐트를 불러오는 함수
+        currentContent = super.getContent();
+    }
+    void addPicture(Container c){//그림 추가 메소드
+        c.add(currentContent.la);
+    }
     void renameFourSelect() { // 생성된 버튼에 이름을 다시 할당하는 메서드
         Random ran = new Random();
         for(int i =0;i<4;i++){
             fourSelect[i].setText(String.valueOf(ran.nextInt(30)));
         }
     }//여러번 실행
-
-    void callContent(){
-        currentContent = super.getContent();
-    }
-    void addPicture(Container c){//그림 추가 메소드
-
-        c.add(currentContent.la);
-    }
     void done(Container c){//게임 종료까지 카운트하는 메소드
         try {
             sleep(30000);

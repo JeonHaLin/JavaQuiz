@@ -6,11 +6,6 @@ import java.util.*;
 
 public class PictureDataLoader extends JFrame{
 
-	public static void main(String[] args){
-		new PictureDataLoader();
-	}
-
-
 	private static final long serialVersionUID = 1L;
 	protected Map<String, String> pictureData; // 그림 데이터를 저장할 맵
 

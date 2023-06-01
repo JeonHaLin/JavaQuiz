@@ -18,6 +18,7 @@ public class PictureReturn extends PictureDataLoader{
     List<PictureContent> pictureContainer = new Vector<>();//라벨과 정답을 쌍으로 묶어서 저장하는 벡터
 
     public PictureReturn(){
+        //생성자 호출 되자마자 벡터에 값 집어넣고 섞은뒤 내보낼 준비 완료
         initContainer();
         shuffleContainer();
     }
@@ -32,7 +33,7 @@ public class PictureReturn extends PictureDataLoader{
         Collections.shuffle(pictureContainer);
     }
 
-    protected PictureContent getContent(){//실질적 리턴함수
+    protected PictureContent getContent(){//실질적으로 계속 쓰일 함수
         PictureContent temp  = new PictureContent(pictureContainer.get(0).answer, pictureContainer.get(0).la);
         removeContent();
         return temp;
