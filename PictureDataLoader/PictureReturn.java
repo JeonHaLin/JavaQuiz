@@ -42,4 +42,8 @@ public class PictureReturn extends PictureDataLoader{
     private void removeContent(){
         pictureContainer.remove(0);
     }
+
+    //make wrong answer return function
+    //format is List or Vector
+    //content is not overlapping
 }
