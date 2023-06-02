@@ -37,7 +37,7 @@ public class ScoreWriter extends JFrame {
 
     public void saveScoreToFile() {
         String name = nameTextField.getText();
-        int score = 0; // 초기 점수는 0으로 설정
+        int score = 0; // score점수는 일단 0으로 설정하였습니다.
 
         try {
             PrintWriter writer = new PrintWriter(new FileWriter("score.txt", true));
