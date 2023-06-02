@@ -35,7 +35,7 @@ public class getNotAnswer extends JFrame {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { //이건 테스트할 겸 만든거라 지우셔도됩니다
        getNotAnswer Notanswer = new getNotAnswer();
         List<String> getNotAnswer = Notanswer.getNotAnswers();
     }
