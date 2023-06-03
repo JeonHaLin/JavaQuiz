@@ -13,6 +13,7 @@ public class GameSettings extends JFrame {
     private JSlider blueSlider;
     private JSlider volumeSlider;
     private JButton saveButton;
+    private JButton colorButton; 
 
     // 파일 경로
     private static final String SETTINGS_FILE = "settings.txt";
@@ -52,7 +53,23 @@ public class GameSettings extends JFrame {
         });
         add(windowSizeLabel);
         add(windowSizeComboBox);
-
+        // Color Button
+        JLabel colorLabel = new JLabel("  Color:"); // 컬러
+        colorButton = new JButton("Choose Color");
+        colorButton.addActionListener(e -> {
+            Color selectedColor = JColorChooser.showDialog(this, "Choose Color", getContentPane().getBackground());
+            if (selectedColor != null) {
+                redSlider.setValue(selectedColor.getRed());
+                greenSlider.setValue(selectedColor.getGreen());
+                blueSlider.setValue(selectedColor.getBlue());
+                updateColor();
+                saveSettings();
+            }
+        });
+        
+        add(colorLabel);
+        add(colorButton);
+        
         // Red Slider
         JLabel redLabel = new JLabel("  Red:"); // 빨강
         redSlider = new JSlider(0, 255, 255);
@@ -60,8 +77,7 @@ public class GameSettings extends JFrame {
             updateColor();
             saveSettings();
         });
-        add(redLabel);
-        add(redSlider);
+
 
         // Green Slider
         JLabel greenLabel = new JLabel("  Green:"); // 초록
@@ -70,8 +86,7 @@ public class GameSettings extends JFrame {
             updateColor();
             saveSettings();
         });
-        add(greenLabel);
-        add(greenSlider);
+
 
         // Blue Slider
         JLabel blueLabel = new JLabel("  Blue:"); // 파랑
@@ -80,8 +95,6 @@ public class GameSettings extends JFrame {
             updateColor();
             saveSettings();
         });
-        add(blueLabel);
-        add(blueSlider);
 
         // Volume Slider
         JLabel volumeLabel = new JLabel("  Volume:"); // 볼륨
@@ -174,9 +187,9 @@ public class GameSettings extends JFrame {
 
         Color color = new Color(red, green, blue);
         getContentPane().setBackground(color);
-
-        saveButton.setBackground(Color.lightGray); // 저장 버튼 색상
-        saveButton.setForeground(color); // 저장 버튼 전경색
+        
+        colorButton.setForeground(color);
+        saveButton.setForeground(color);
     }
 
     private void loadSettings() {
@@ -219,6 +232,7 @@ public class GameSettings extends JFrame {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error loading settings. Using default settings.");
             loadDefaultSettings();
         }
     }
