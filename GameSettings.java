@@ -1,3 +1,5 @@
+package project_setting;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -24,7 +26,7 @@ public class GameSettings extends JFrame {
         setResizable(false); // 창 크기 조정 비활성화
 
         // Font ComboBox
-        JLabel fontLabel = new JLabel("     Font:");
+        JLabel fontLabel = new JLabel("  Font:"); // 폰트
         fontComboBox = new JComboBox<>(new String[]{"Arial", "Times New Roman", "Consolas"});
         fontComboBox.addActionListener(e -> {
             updateFont();
@@ -34,7 +36,7 @@ public class GameSettings extends JFrame {
         add(fontComboBox);
 
         // Font Size ComboBox
-        JLabel fontSizeLabel = new JLabel("     Font Size:");
+        JLabel fontSizeLabel = new JLabel("  Font Size:"); // 폰트 크기
         fontSizeComboBox = new JComboBox<>(new String[]{"Small", "Medium", "Large"});
         fontSizeComboBox.addActionListener(e -> {
             updateFont();
@@ -44,7 +46,7 @@ public class GameSettings extends JFrame {
         add(fontSizeComboBox);
 
         // Window Size ComboBox
-        JLabel windowSizeLabel = new JLabel("     Window Size:");
+        JLabel windowSizeLabel = new JLabel("  Window Size:"); // 창 크기
         windowSizeComboBox = new JComboBox<>(new String[]{"400x400", "600x600", "800x800"});
         windowSizeComboBox.addActionListener(e -> {
             updateWindowSize();
@@ -54,7 +56,7 @@ public class GameSettings extends JFrame {
         add(windowSizeComboBox);
 
         // Red Slider
-        JLabel redLabel = new JLabel("     Red:");
+        JLabel redLabel = new JLabel("  Red:"); // 빨강
         redSlider = new JSlider(0, 255, 255);
         redSlider.addChangeListener(e -> {
             updateColor();
@@ -64,7 +66,7 @@ public class GameSettings extends JFrame {
         add(redSlider);
 
         // Green Slider
-        JLabel greenLabel = new JLabel("     Green:");
+        JLabel greenLabel = new JLabel("  Green:"); // 초록
         greenSlider = new JSlider(0, 255, 255);
         greenSlider.addChangeListener(e -> {
             updateColor();
@@ -74,7 +76,7 @@ public class GameSettings extends JFrame {
         add(greenSlider);
 
         // Blue Slider
-        JLabel blueLabel = new JLabel("     Blue:");
+        JLabel blueLabel = new JLabel("  Blue:"); // 파랑
         blueSlider = new JSlider(0, 255, 255);
         blueSlider.addChangeListener(e -> {
             updateColor();
@@ -84,7 +86,7 @@ public class GameSettings extends JFrame {
         add(blueSlider);
 
         // Volume Slider
-        JLabel volumeLabel = new JLabel("     Volume:");
+        JLabel volumeLabel = new JLabel("  Volume:"); // 볼륨
         volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         volumeSlider.setMajorTickSpacing(50);
         volumeSlider.setMinorTickSpacing(5);
@@ -97,7 +99,7 @@ public class GameSettings extends JFrame {
         add(new JLabel());
 
         // Save Button
-        saveButton = new JButton("Save");
+        saveButton = new JButton("Save"); // 저장
         saveButton.addActionListener(e -> {
             saveSettings();
             dispose();
@@ -175,9 +177,10 @@ public class GameSettings extends JFrame {
         Color color = new Color(red, green, blue);
         getContentPane().setBackground(color);
 
-        saveButton.setBackground(Color.lightGray);
-        saveButton.setForeground(color);
+        saveButton.setBackground(Color.lightGray); // 저장 버튼 색상
+        saveButton.setForeground(color); // 저장 버튼 전경색
     }
+
     private void loadSettings() {
         try {
             File file = new File(SETTINGS_FILE);
@@ -222,9 +225,8 @@ public class GameSettings extends JFrame {
         }
     }
 
-
     private void loadDefaultSettings() {
-        String defaultFont = "Arial";
+        String defaultFont = "Consolas";
         String defaultFontSize = "Medium";
         String defaultWindowSize = "600x600";
         int defaultRed = 255;
@@ -246,7 +248,11 @@ public class GameSettings extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(GameSettings::new);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new GameSettings();
+            }
+        });
     }
-}
 
+}
