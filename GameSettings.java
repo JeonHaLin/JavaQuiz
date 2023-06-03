@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.io.*;
 
@@ -8,24 +6,21 @@ public class GameSettings extends JFrame {
     private JComboBox<String> fontComboBox;
     private JComboBox<String> fontSizeComboBox;
     private JComboBox<String> windowSizeComboBox;
-    private JSlider redSlider;
-    private JSlider greenSlider;
-    private JSlider blueSlider;
     private JSlider volumeSlider;
     private JButton saveButton;
     private JButton colorButton; 
 
-    // 파일 경로
+    // File path
     private static final String SETTINGS_FILE = "settings.txt";
 
     public GameSettings() {
         setTitle("Game Settings");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(8, 2, 10, 10));
-        setResizable(false); // 창 크기 조정 비활성화
+        setLayout(new GridLayout(7, 2, 10, 10));
+        setResizable(false); // Disable window resizing
 
         // Font ComboBox
-        JLabel fontLabel = new JLabel("  Font:"); // 폰트
+        JLabel fontLabel = new JLabel("  Font:");
         fontComboBox = new JComboBox<>(new String[]{"Arial", "Times New Roman", "Consolas"});
         fontComboBox.addActionListener(e -> {
             updateFont();
@@ -35,7 +30,7 @@ public class GameSettings extends JFrame {
         add(fontComboBox);
 
         // Font Size ComboBox
-        JLabel fontSizeLabel = new JLabel("  Font Size:"); // 폰트 크기
+        JLabel fontSizeLabel = new JLabel("  Font Size:");
         fontSizeComboBox = new JComboBox<>(new String[]{"Small", "Medium", "Large"});
         fontSizeComboBox.addActionListener(e -> {
             updateFont();
@@ -45,7 +40,7 @@ public class GameSettings extends JFrame {
         add(fontSizeComboBox);
 
         // Window Size ComboBox
-        JLabel windowSizeLabel = new JLabel("  Window Size:"); // 창 크기
+        JLabel windowSizeLabel = new JLabel("  Window Size:");
         windowSizeComboBox = new JComboBox<>(new String[]{"400x400", "600x600", "800x800"});
         windowSizeComboBox.addActionListener(e -> {
             updateWindowSize();
@@ -53,51 +48,22 @@ public class GameSettings extends JFrame {
         });
         add(windowSizeLabel);
         add(windowSizeComboBox);
+        
         // Color Button
-        JLabel colorLabel = new JLabel("  Color:"); // 컬러
-        colorButton = new JButton("Choose Color");
+        JLabel colorLabel = new JLabel("  Color:");
+        colorButton = new JButton("Pick one!");
         colorButton.addActionListener(e -> {
-            Color selectedColor = JColorChooser.showDialog(this, "Choose Color", getContentPane().getBackground());
+            Color selectedColor = JColorChooser.showDialog(this, "Choose Color", Color.WHITE);
             if (selectedColor != null) {
-                redSlider.setValue(selectedColor.getRed());
-                greenSlider.setValue(selectedColor.getGreen());
-                blueSlider.setValue(selectedColor.getBlue());
-                updateColor();
+                getContentPane().setBackground(selectedColor);
                 saveSettings();
             }
         });
-        
         add(colorLabel);
         add(colorButton);
-        
-        // Red Slider
-        JLabel redLabel = new JLabel("  Red:"); // 빨강
-        redSlider = new JSlider(0, 255, 255);
-        redSlider.addChangeListener(e -> {
-            updateColor();
-            saveSettings();
-        });
-
-
-        // Green Slider
-        JLabel greenLabel = new JLabel("  Green:"); // 초록
-        greenSlider = new JSlider(0, 255, 255);
-        greenSlider.addChangeListener(e -> {
-            updateColor();
-            saveSettings();
-        });
-
-
-        // Blue Slider
-        JLabel blueLabel = new JLabel("  Blue:"); // 파랑
-        blueSlider = new JSlider(0, 255, 255);
-        blueSlider.addChangeListener(e -> {
-            updateColor();
-            saveSettings();
-        });
 
         // Volume Slider
-        JLabel volumeLabel = new JLabel("  Volume:"); // 볼륨
+        JLabel volumeLabel = new JLabel("  Volume:");
         volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         volumeSlider.setMajorTickSpacing(50);
         volumeSlider.setMinorTickSpacing(5);
@@ -110,7 +76,7 @@ public class GameSettings extends JFrame {
         add(new JLabel());
 
         // Save Button
-        saveButton = new JButton("Save"); // 저장
+        saveButton = new JButton("Save");
         saveButton.addActionListener(e -> {
             saveSettings();
             dispose();
@@ -125,14 +91,12 @@ public class GameSettings extends JFrame {
     }
 
     private void saveSettings() {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(SETTINGS_FILE));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(SETTINGS_FILE))) {
             String selectedFont = (String) fontComboBox.getSelectedItem();
             String selectedFontSize = (String) fontSizeComboBox.getSelectedItem();
             String selectedWindowSize = (String) windowSizeComboBox.getSelectedItem();
-            int red = redSlider.getValue();
-            int green = greenSlider.getValue();
-            int blue = blueSlider.getValue();
+            Color bgColor = getContentPane().getBackground();
+            String selectedColor = Integer.toString(bgColor.getRGB());
             int selectedVolume = volumeSlider.getValue();
 
             writer.write(selectedFont);
@@ -141,16 +105,12 @@ public class GameSettings extends JFrame {
             writer.newLine();
             writer.write(selectedWindowSize);
             writer.newLine();
-            writer.write(String.valueOf(red));
-            writer.newLine();
-            writer.write(String.valueOf(green));
-            writer.newLine();
-            writer.write(String.valueOf(blue));
+            writer.write(selectedColor);
             writer.newLine();
             writer.write(String.valueOf(selectedVolume));
-            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error saving settings. Please try again.");
         }
     }
 
@@ -173,64 +133,43 @@ public class GameSettings extends JFrame {
     }
 
     private void updateWindowSize() {
-        String windowSize = (String) windowSizeComboBox.getSelectedItem();
-        String[] dimensions = windowSize.split("x");
-        int width = Integer.parseInt(dimensions[0]);
-        int height = Integer.parseInt(dimensions[1]);
-        setSize(width, height);
-    }
-
-    private void updateColor() {
-        int red = redSlider.getValue();
-        int green = greenSlider.getValue();
-        int blue = blueSlider.getValue();
-
-        Color color = new Color(red, green, blue);
-        getContentPane().setBackground(color);
-        
-        colorButton.setForeground(color);
-        saveButton.setForeground(color);
+        try {
+            String windowSize = (String) windowSizeComboBox.getSelectedItem();
+            String[] dimensions = windowSize.split("x");
+            int width = Integer.parseInt(dimensions[0]);
+            int height = Integer.parseInt(dimensions[1]);
+            setSize(width, height);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error parsing window size. Please check your settings.");
+        }
     }
 
     private void loadSettings() {
-        try {
-            File file = new File(SETTINGS_FILE);
-            if (file.exists()) {
-                BufferedReader reader = new BufferedReader(new FileReader(SETTINGS_FILE));
-                String font = reader.readLine();
-                String fontSize = reader.readLine();
-                String windowSizeString = reader.readLine();
-                String red = reader.readLine();
-                String green = reader.readLine();
-                String blue = reader.readLine();
-                String volume = reader.readLine();
-                reader.close();
+        try (BufferedReader reader = new BufferedReader(new FileReader(SETTINGS_FILE))) {
+            String font = reader.readLine();
+            String fontSize = reader.readLine();
+            String windowSizeString = reader.readLine();
+            String colorRGB = reader.readLine();
+            String volume = reader.readLine();
 
-                if (font == null || fontSize == null || windowSizeString == null || red == null || green == null || blue == null || volume == null) {
-                    throw new IOException("Settings file is corrupted.");
-                }
-
-                fontComboBox.setSelectedItem(font);
-                fontSizeComboBox.setSelectedItem(fontSize);
-                windowSizeComboBox.setSelectedItem(windowSizeString);
-
-                int redValue = red.isEmpty() ? 255 : Integer.parseInt(red);
-                int greenValue = green.isEmpty() ? 255 : Integer.parseInt(green);
-                int blueValue = blue.isEmpty() ? 255 : Integer.parseInt(blue);
-                int volumeValue = volume.isEmpty() ? 50 : Integer.parseInt(volume);
-
-                redSlider.setValue(redValue);
-                greenSlider.setValue(greenValue);
-                blueSlider.setValue(blueValue);
-                volumeSlider.setValue(volumeValue);
-
-                updateFont();
-                updateWindowSize();
-                updateColor();
-            } else {
-                loadDefaultSettings();
+            if (font == null || fontSize == null || windowSizeString == null || colorRGB == null || volume == null) {
+                throw new IOException("Settings file is corrupted.");
             }
-        } catch (IOException e) {
+
+            fontComboBox.setSelectedItem(font);
+            fontSizeComboBox.setSelectedItem(fontSize);
+            windowSizeComboBox.setSelectedItem(windowSizeString);
+
+            Color bgColor = new Color(Integer.parseInt(colorRGB));
+            getContentPane().setBackground(bgColor);
+            int volumeValue = volume.isEmpty() ? 50 : Integer.parseInt(volume);
+
+            volumeSlider.setValue(volumeValue);
+
+            updateFont();
+            updateWindowSize();
+        } catch (IOException | NumberFormatException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error loading settings. Using default settings.");
             loadDefaultSettings();
@@ -241,28 +180,26 @@ public class GameSettings extends JFrame {
         String defaultFont = "Consolas";
         String defaultFontSize = "Medium";
         String defaultWindowSize = "600x600";
-        int defaultRed = 255;
-        int defaultGreen = 255;
-        int defaultBlue = 255;
+        Color defaultColor = Color.WHITE;
         int defaultVolume = 50;
 
         fontComboBox.setSelectedItem(defaultFont);
         fontSizeComboBox.setSelectedItem(defaultFontSize);
         windowSizeComboBox.setSelectedItem(defaultWindowSize);
-        redSlider.setValue(defaultRed);
-        greenSlider.setValue(defaultGreen);
-        blueSlider.setValue(defaultBlue);
+        getContentPane().setBackground(defaultColor);
         volumeSlider.setValue(defaultVolume);
 
         updateFont();
         updateWindowSize();
-        updateColor();
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
+        SwingUtilities.invokeLater(() -> {
+            try {
                 new GameSettings();
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error launching settings. Please try again.");
             }
         });
     }
