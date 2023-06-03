@@ -176,7 +176,7 @@ public class GameSettings extends JFrame {
         }
     }
 
-    private void loadDefaultSettings() {
+    public void loadDefaultSettings() {
         String defaultFont = "Consolas";
         String defaultFontSize = "Medium";
         String defaultWindowSize = "600x600";
