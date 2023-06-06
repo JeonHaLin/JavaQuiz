@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public class PictureReturn extends PictureDataLoader{
     protected class PictureContent{//사진의 이미지가 담긴 라벨과 정답을 소유하는 클래스
-        String answer;
+        public String answer;
         public JLabel la;
         PictureContent(String ans,JLabel la){
             this.answer=ans;

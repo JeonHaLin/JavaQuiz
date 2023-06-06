@@ -1,50 +1,54 @@
 package GameWindow;
 
 import PictureDataLoader.PictureReturn;
+import getAnswer.getNotAnswer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Random;
 
 import static java.lang.Thread.sleep;
 
-
 public class GameRun extends PictureReturn {
-    public static void main(String[] args) {
-        new GameRun();
-    }
 
+    getNotAnswer makerWrong=new getNotAnswer();
     JButton[] fourSelect; // 4지선다 그룹
     int totalScore=0;
-
+    int currentAnswerNum=0;
+    JPanel JP= new JPanel();
     protected PictureContent currentContent;
+    JLabel countLabel=new JLabel("0");
+    JLabel scoreLabel=new JLabel("0");
 
     GameRun() {
-        setTitle("Quiz Game");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container c = getContentPane();
-
-        c.setLayout(new BorderLayout());
-
-
-
-        //once
+        JP.setLayout(new BorderLayout());
+        setInformationLocation();
         this.setButtonGroup();
         this.addEvent();
-        this.setButtonLocation(c);
-
-
-        //multi
-        this.callContent();
-        this.renameFourSelect();
-        this.addPicture(c);
+        this.setButtonLocation();
+        setProblem();
 
         setVisible(true);
-        setSize(1280,1280);
-        done(c);
+        setSize(1280,720);
+
+        done();
+        JP.removeAll();
+        JP.revalidate();
         new GameEnd(totalScore);
+    }
+
+    void setInformationLocation(){
+        JPanel tempPanel = new JPanel();
+        tempPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        tempPanel.add(countLabel);
+        tempPanel.add(new JLabel("Score : "));
+        tempPanel.add(scoreLabel);
+
+        JP.add(tempPanel,BorderLayout.NORTH);
     }
 
     void setButtonGroup() { // 4지 선다 버튼 그룹 생성 메서드
@@ -55,13 +59,13 @@ public class GameRun extends PictureReturn {
         }
     }//한번만 실행
 
-    void setButtonLocation(Container c){//버튼을 하단부에 위치시키는 매소드
+    void setButtonLocation(){//버튼을 하단부에 위치시키는 매소드
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         for(int i =0;i<4;i++) {
             buttonPanel.add(fourSelect[i]);
         }
-        c.add(buttonPanel, BorderLayout.SOUTH);
+        JP.add(buttonPanel, BorderLayout.SOUTH);
     }//한번만 실행
 
     void addEvent(){//각 버튼마다 이벤트를 추가시키는 메소드
@@ -70,46 +74,55 @@ public class GameRun extends PictureReturn {
         }
     }//한번만 실행
 
-
-
     void callContent(){//이미지 컨텐트를 불러오는 함수
         currentContent = super.getContent();
     }
-    void addPicture(Container c){//그림 추가 메소드
-        c.add(currentContent.la);
+    void addPicture(){//그림 추가 메소드
+        JP.add(currentContent.la,BorderLayout.CENTER);
     }
     void renameFourSelect() { // 생성된 버튼에 이름을 다시 할당하는 메서드
         Random ran = new Random();
-        for(int i =0;i<4;i++){
-            fourSelect[i].setText(String.valueOf(ran.nextInt(30)));
-        }
-    }//여러번 실행
-    void done(Container c){//게임 종료까지 카운트하는 메소드
-        try {
-            sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        c.removeAll();
+        currentAnswerNum=ran.nextInt(4);
 
-        JFrame temp = new JFrame();
-        temp.setVisible(true);
-        temp.setSize(100,200);
+        List<String> wrongList=makerWrong.getNotAnswers();
+
+        for(int i = 0 ;i <4;i++){
+            if(i==currentAnswerNum) fourSelect[i].setText(currentContent.answer);
+            else fourSelect[i].setText(wrongList.get(i));
+        }
+
     }
 
+    void setProblem(){
+        this.callContent();
+        this.renameFourSelect();
+        this.addPicture();
+
+    }//문제를 새로 갱신하는 메서드
+
+
+    void done() {
+        for(int i =1;i<31;i++){
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            countLabel.setText(String.valueOf(i));
+        }
+    }
 
     class AnswerEvent implements ActionListener {//게임중 정답을 누르는 버튼에 이벤트를 추가하는 메소드
         public void actionPerformed(ActionEvent e){
             JButton temp = (JButton) e.getSource();
 
-            if(temp.getText().equals("Selected")){
-                temp.setText("unSelected");
+            if(temp.getText().equals(currentContent.answer)){
                 totalScore+=1;
-            }
-            else{
-                temp.setText("Selected");
+                scoreLabel.setText(String.valueOf(totalScore));
             }
 
+            JP.remove(currentContent.la);
+            setProblem();
         }
     }
 

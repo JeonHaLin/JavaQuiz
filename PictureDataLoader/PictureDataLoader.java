@@ -1,10 +1,11 @@
 package PictureDataLoader;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.util.*;
 
-public class PictureDataLoader extends JFrame{
+public class PictureDataLoader extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	protected Map<String, String> pictureData; // 그림 데이터를 저장할 맵
@@ -52,7 +53,11 @@ public class PictureDataLoader extends JFrame{
 
 	protected JLabel getImageLabel(String path) {//키값에 해당하는 이미지를 리턴하는 함수
 		ImageIcon img = new ImageIcon(path);
-		JLabel la = new JLabel(img);
+
+		Image tempImg= img.getImage();
+		Image updateImg = tempImg.getScaledInstance(400,500,Image.SCALE_SMOOTH);
+		ImageIcon updateIcon=new ImageIcon(updateImg);
+		JLabel la = new JLabel(updateIcon);
 		return la;
 	}
 }
