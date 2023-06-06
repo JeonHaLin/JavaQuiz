@@ -16,8 +16,12 @@ public class GameSettings extends JFrame {
     public GameSettings() {
         setTitle("Game Settings");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(7, 2, 10, 10));
         setResizable(false); // Disable window resizing
+        
+        JPanel contentPanel = new JPanel();
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        contentPanel.setLayout(new GridLayout(7, 2, 10, 10));
+        setContentPane(contentPanel);
 
         // Font ComboBox
         JLabel fontLabel = new JLabel("  Font:");
@@ -138,7 +142,8 @@ public class GameSettings extends JFrame {
             String[] dimensions = windowSize.split("x");
             int width = Integer.parseInt(dimensions[0]);
             int height = Integer.parseInt(dimensions[1]);
-            setSize(width, height);
+            setPreferredSize(new Dimension(width, height));
+            pack();
         } catch (NumberFormatException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error parsing window size. Please check your settings.");
