@@ -26,6 +26,7 @@ public class GameSettings extends JFrame {
         // Font ComboBox
         JLabel fontLabel = new JLabel("  Font:");
         fontComboBox = new JComboBox<>(new String[]{"Arial", "Times New Roman", "Consolas"});
+        fontComboBox.setToolTipText("Select the game's font");
         fontComboBox.addActionListener(e -> {
             updateFont();
             saveSettings();
@@ -36,6 +37,7 @@ public class GameSettings extends JFrame {
         // Font Size ComboBox
         JLabel fontSizeLabel = new JLabel("  Font Size:");
         fontSizeComboBox = new JComboBox<>(new String[]{"Small", "Medium", "Large"});
+        fontSizeComboBox.setToolTipText("Select the size of the game's font");
         fontSizeComboBox.addActionListener(e -> {
             updateFont();
             saveSettings();
@@ -46,6 +48,7 @@ public class GameSettings extends JFrame {
         // Window Size ComboBox
         JLabel windowSizeLabel = new JLabel("  Window Size:");
         windowSizeComboBox = new JComboBox<>(new String[]{"400x400", "600x600", "800x800"});
+        windowSizeComboBox.setToolTipText("Select the game window size");
         windowSizeComboBox.addActionListener(e -> {
             updateWindowSize();
             saveSettings();
@@ -56,6 +59,7 @@ public class GameSettings extends JFrame {
         // Color Button
         JLabel colorLabel = new JLabel("  Color:");
         colorButton = new JButton("Pick one!");
+        colorButton.setToolTipText("Click to choose a color");
         colorButton.addActionListener(e -> {
             Color selectedColor = JColorChooser.showDialog(this, "Choose Color", Color.WHITE);
             if (selectedColor != null) {
@@ -69,6 +73,7 @@ public class GameSettings extends JFrame {
         // Volume Slider
         JLabel volumeLabel = new JLabel("  Volume:");
         volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
+        volumeSlider.setToolTipText("Adjust the game's volume");
         volumeSlider.setMajorTickSpacing(50);
         volumeSlider.setMinorTickSpacing(5);
         volumeSlider.setPaintTicks(true);
@@ -81,6 +86,7 @@ public class GameSettings extends JFrame {
 
         // Save Button
         saveButton = new JButton("Save");
+        saveButton.setToolTipText("Click to save your settings");
         saveButton.addActionListener(e -> {
             saveSettings();
             dispose();
@@ -208,5 +214,4 @@ public class GameSettings extends JFrame {
             }
         });
     }
-
 }
